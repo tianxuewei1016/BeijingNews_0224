@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.atguigu.beijingnews_0224.R;
+import com.atguigu.beijingnews_0224.fragment.ContentFragment;
 import com.atguigu.beijingnews_0224.fragment.LeftMenuFragment;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
@@ -50,7 +51,7 @@ public class MainActivity extends SlidingFragmentActivity {
         FragmentTransaction ft = fm.beginTransaction();
         //3.替换两个Fragment
         ft.replace(R.id.fl_left, new LeftMenuFragment(), LEFT_TAG);
-        ft.replace(R.id.fl_main, new LeftMenuFragment(), MAIN_TAG);
+        ft.replace(R.id.fl_main, new ContentFragment(), MAIN_TAG);
         //4.提交事物
         ft.commit();
     }

@@ -1,11 +1,14 @@
 package com.atguigu.beijingnews_0224.fragment;
 
-import android.graphics.Color;
-import android.view.Gravity;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.RadioGroup;
 
+import com.atguigu.beijingnews_0224.R;
 import com.atguigu.beijingnews_0224.base.BaseFragment;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * 作者：田学伟 on 2017/6/2 15:29
@@ -13,21 +16,31 @@ import com.atguigu.beijingnews_0224.base.BaseFragment;
  * 作用：
  */
 
-public class ContentFragment extends BaseFragment{
-    private TextView textView;
+public class ContentFragment extends BaseFragment {
+
+    @InjectView(R.id.vp)
+    ViewPager vp;
+    @InjectView(R.id.rg_main)
+    RadioGroup rgMain;
+
     @Override
     protected View initView() {
-        textView = new TextView(mContext);
-        textView.setTextSize(25);
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextColor(Color.RED);
-        return textView;
+        View view = View.inflate(mContext, R.layout.fragment_content, null);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
     @Override
     public void initData() {
         super.initData();
-        textView.setText("主菜单");
+        //默认选中主页
+        rgMain.check(R.id.rb_home);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 }
 
