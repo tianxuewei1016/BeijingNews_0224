@@ -52,10 +52,29 @@ public class ContentFragment extends BaseFragment {
 
         vp.setAdapter(new MyAdapter());
 
+        //设置RadioGroup的监听
+        rgMain.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_home:
+                        vp.setCurrentItem(0, false);
+                        break;
+                    case R.id.rb_news:
+                        vp.setCurrentItem(1, false);
+                        break;
+                    case R.id.rb_setting:
+                        vp.setCurrentItem(2, false);
+                        break;
+                }
+            }
+        });
+
         //默认选中主页
         rgMain.check(R.id.rb_home);
     }
-    class MyAdapter extends PagerAdapter{
+
+    class MyAdapter extends PagerAdapter {
 
         @Override
         public int getCount() {
