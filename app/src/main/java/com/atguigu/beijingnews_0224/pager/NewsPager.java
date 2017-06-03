@@ -4,17 +4,25 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.atguigu.baselibrary.Constants;
 import com.atguigu.beijingnews_0224.activity.MainActivity;
 import com.atguigu.beijingnews_0224.base.BasePager;
+import com.atguigu.beijingnews_0224.base.MenuDetailBasePager;
+import com.atguigu.beijingnews_0224.detailpager.InteractMenuDetailPager;
+import com.atguigu.beijingnews_0224.detailpager.NewsMenuDetailPager;
+import com.atguigu.beijingnews_0224.detailpager.PhotosMenuDetailPager;
+import com.atguigu.beijingnews_0224.detailpager.TopicMenuDetailPager;
+import com.atguigu.beijingnews_0224.detailpager.VoteMenuDetailPager;
 import com.atguigu.beijingnews_0224.domain.NewsCenterBean;
 import com.atguigu.beijingnews_0224.fragment.LeftMenuFragment;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -27,9 +35,14 @@ import okhttp3.Call;
 
 public class NewsPager extends BasePager {
     /**
-     * 数据集合
+     * 左侧页面的数据集合
      */
     private List<NewsCenterBean.DataBean> datas;
+    /**
+     * 左侧菜单详情的页面的集合
+     */
+    private List<MenuDetailBasePager> basePagers;
+
 
     public NewsPager(Context mContext) {
         super(mContext);
@@ -42,6 +55,7 @@ public class NewsPager extends BasePager {
 
         //设置标题
         tv_title.setText("新闻");
+        ib_menu.setVisibility(View.VISIBLE);
         //实例视图
         TextView textView = new TextView(mContext);
         textView.setText("新闻页面的内容");
@@ -89,9 +103,37 @@ public class NewsPager extends BasePager {
         datas = newsCenterBean.getData();
         //传入到左侧菜单
         MainActivity mainActivity = (MainActivity) mContext;
+
+        //实例化详情页面
+        basePagers = new ArrayList<>();
+        basePagers.add(new NewsMenuDetailPager(mContext));
+        basePagers.add(new TopicMenuDetailPager(mContext));
+        basePagers.add(new PhotosMenuDetailPager(mContext));
+        basePagers.add(new InteractMenuDetailPager(mContext));
+        basePagers.add(new VoteMenuDetailPager(mContext));
+
         //得到左侧菜单Fragment
         LeftMenuFragment leftMenuFragment = mainActivity.getLeftMenuFragment();
         //设置数据
         leftMenuFragment.setData(datas);
+
+
+    }
+
+    /**
+     * 根据位置切换到不同的详情页面
+     *
+     * @param prePosition
+     */
+    public void swichPager(int prePosition) {
+        MenuDetailBasePager basePager = basePagers.get(prePosition);//NewsMenuDetailPager,TopicMenuDetailPager...
+        View rootView = basePager.rootView;
+        fl_content.removeAllViews();//把之前显示的给移除
+
+        fl_content.addView(rootView);
+
+        //调用InitData
+        basePager.initData();
+
     }
 }

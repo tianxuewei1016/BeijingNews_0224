@@ -11,6 +11,7 @@ import com.atguigu.beijingnews_0224.R;
 import com.atguigu.beijingnews_0224.activity.MainActivity;
 import com.atguigu.beijingnews_0224.base.BaseFragment;
 import com.atguigu.beijingnews_0224.domain.NewsCenterBean;
+import com.atguigu.beijingnews_0224.pager.NewsPager;
 
 import java.util.List;
 
@@ -40,8 +41,12 @@ public class LeftMenuFragment extends BaseFragment {
                 prePosition = position;
                 //刷新适配器
                 adapter.notifyDataSetChanged();
+                //1.得到MainActivity
                 MainActivity mainActivity = (MainActivity) mContext;
                 mainActivity.getSlidingMenu().toggle();//开关相互转换的
+
+                //根据位置切换到对应的详情页面
+                switchPager(prePosition);
             }
         });
         return listView;
@@ -58,6 +63,17 @@ public class LeftMenuFragment extends BaseFragment {
         //设置适配器
         adapter = new LeftMenuAdapter();
         listView.setAdapter(adapter);
+        switchPager(prePosition);
+    }
+
+    private void switchPager(int position) {
+        MainActivity mainActivity = (MainActivity) mContext;
+        //2.得到ContentFragment
+        ContentFragment contentFragment = mainActivity.getContentFragment();
+        //3.得到NewsPager
+        NewsPager newsPager = contentFragment.getNewsPager();
+        //4.调用切换方法
+        newsPager.swichPager(position);
     }
 
     class LeftMenuAdapter extends BaseAdapter {

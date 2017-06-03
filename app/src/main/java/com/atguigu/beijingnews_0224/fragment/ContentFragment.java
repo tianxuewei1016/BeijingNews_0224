@@ -110,7 +110,6 @@ public class ContentFragment extends BaseFragment {
     }
 
 
-
     /**
      * 是否让SlidingMenu滑动
      *
@@ -120,6 +119,14 @@ public class ContentFragment extends BaseFragment {
     private static void isEnableSlidingMenu(Context mContext, int touchmodeFullscreen) {
         MainActivity mainActivity = (MainActivity) mContext;
         mainActivity.getSlidingMenu().setTouchModeAbove(touchmodeFullscreen);
+    }
+
+    /**
+     * 得到新闻中心
+     * @return
+     */
+    public NewsPager getNewsPager() {
+        return (NewsPager) pagers.get(1);
     }
 
     class MyAdapter extends PagerAdapter {
