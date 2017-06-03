@@ -7,11 +7,15 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 import com.atguigu.baselibrary.Constants;
+import com.atguigu.beijingnews_0224.activity.MainActivity;
 import com.atguigu.beijingnews_0224.base.BasePager;
 import com.atguigu.beijingnews_0224.domain.NewsCenterBean;
+import com.atguigu.beijingnews_0224.fragment.LeftMenuFragment;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.util.List;
 
 import okhttp3.Call;
 
@@ -22,6 +26,11 @@ import okhttp3.Call;
  */
 
 public class NewsPager extends BasePager {
+    /**
+     * 数据集合
+     */
+    private List<NewsCenterBean.DataBean> datas;
+
     public NewsPager(Context mContext) {
         super(mContext);
     }
@@ -77,6 +86,12 @@ public class NewsPager extends BasePager {
     private void processData(String json) {
         NewsCenterBean newsCenterBean = new Gson().fromJson(json, NewsCenterBean.class);
         Log.e("TAG", "解析成功==" + newsCenterBean.getData().get(0).getChildren().get(0).getTitle());
-
+        datas = newsCenterBean.getData();
+        //传入到左侧菜单
+        MainActivity mainActivity = (MainActivity) mContext;
+        //得到左侧菜单Fragment
+        LeftMenuFragment leftMenuFragment = mainActivity.getLeftMenuFragment();
+        //设置数据
+        leftMenuFragment.setData(datas);
     }
 }

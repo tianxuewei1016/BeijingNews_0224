@@ -109,6 +109,8 @@ public class ContentFragment extends BaseFragment {
         isEnableSlidingMenu((MainActivity) mContext, SlidingMenu.TOUCHMODE_NONE);
     }
 
+
+
     /**
      * 是否让SlidingMenu滑动
      *

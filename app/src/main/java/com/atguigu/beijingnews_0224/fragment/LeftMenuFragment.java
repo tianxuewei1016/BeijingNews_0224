@@ -1,11 +1,13 @@
 package com.atguigu.beijingnews_0224.fragment;
 
-import android.graphics.Color;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.atguigu.beijingnews_0224.base.BaseFragment;
+import com.atguigu.beijingnews_0224.domain.NewsCenterBean;
+
+import java.util.List;
 
 /**
  * 作者：田学伟 on 2017/6/2 15:27
@@ -13,20 +15,27 @@ import com.atguigu.beijingnews_0224.base.BaseFragment;
  * 作用：
  */
 
-public class LeftMenuFragment extends BaseFragment{
-    private TextView textView;
+public class LeftMenuFragment extends BaseFragment {
+    private ListView listView;
+    private List<NewsCenterBean.DataBean> datas;
+
     @Override
     protected View initView() {
-        textView = new TextView(mContext);
-        textView.setTextSize(25);
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextColor(Color.RED);
-        return textView;
+        listView = new ListView(mContext);
+        return listView;
     }
 
     @Override
     public void initData() {
         super.initData();
-        textView.setText("左侧菜单");
+
+    }
+
+    public void setData(List<NewsCenterBean.DataBean> datas) {
+        this.datas = datas;
+        for (int i = 0; i < datas.size(); i++) {
+            Log.e("TAG", "" + datas.get(i).getTitle());
+
+        }
     }
 }
