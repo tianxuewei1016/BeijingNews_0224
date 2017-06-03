@@ -14,6 +14,7 @@ import com.atguigu.beijingnews_0224.base.BasePager;
 import com.atguigu.beijingnews_0224.pager.HomePager;
 import com.atguigu.beijingnews_0224.pager.NewsPager;
 import com.atguigu.beijingnews_0224.pager.SettingPager;
+import com.atguigu.beijingnews_0224.view.NoViewPager;
 import com.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import butterknife.InjectView;
 public class ContentFragment extends BaseFragment {
 
     @InjectView(R.id.vp)
-    ViewPager vp;
+    NoViewPager vp;
     @InjectView(R.id.rg_main)
     RadioGroup rgMain;
 
@@ -110,6 +111,7 @@ public class ContentFragment extends BaseFragment {
 
     /**
      * 是否让SlidingMenu滑动
+     *
      * @param mContext
      * @param touchmodeFullscreen
      */
@@ -135,7 +137,7 @@ public class ContentFragment extends BaseFragment {
             BasePager basePager = pagers.get(position);
             View rootView = basePager.rootView;
             //调用initData方法
-            basePager.initData();//HomePager,NewsPager,SettingPager
+            //basePager.initData();//HomePager,NewsPager,SettingPager
             container.addView(rootView);
             return rootView;
         }
