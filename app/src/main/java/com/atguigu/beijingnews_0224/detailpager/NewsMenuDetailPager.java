@@ -5,6 +5,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.atguigu.beijingnews_0224.R;
 import com.atguigu.beijingnews_0224.base.MenuDetailBasePager;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 作者：田学伟 on 2017/6/3 14:18
@@ -32,6 +34,8 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
     ViewPager viewpager;
     @InjectView(R.id.indicator)
     TabPageIndicator indicator;
+    @InjectView(R.id.ib_next)
+    ImageButton ibNext;
     /**
      * 页面集合,创建12次
      */
@@ -65,6 +69,12 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
 
         //TabPageIndicator和viewpager关联起来
         indicator.setViewPager(viewpager);
+    }
+
+    @OnClick(R.id.ib_next)
+    public void onViewClicked() {
+        //切换到下一个页面
+        viewpager.setCurrentItem(viewpager.getCurrentItem() + 1);
     }
 
     class NewsMenuDetailPagerAdapter extends PagerAdapter {
