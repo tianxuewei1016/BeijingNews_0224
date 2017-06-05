@@ -39,4 +39,6 @@ public class TabDetailPager extends MenuDetailBasePager {
         //设置数据
         textView.setText(childrenBean.getTitle());
     }
+
+
 }
