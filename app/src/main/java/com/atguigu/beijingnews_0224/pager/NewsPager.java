@@ -2,11 +2,13 @@ package com.atguigu.beijingnews_0224.pager;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.atguigu.baselibrary.CacheUtils;
 import com.atguigu.baselibrary.Constants;
 import com.atguigu.beijingnews_0224.activity.MainActivity;
 import com.atguigu.beijingnews_0224.base.BasePager;
@@ -67,6 +69,10 @@ public class NewsPager extends BasePager {
         //添加到布局上
         fl_content.addView(textView);
 
+        String savaJson = CacheUtils.getString(mContext, Constants.NEWSCENTER_PAGER_URL);
+        if (!TextUtils.isEmpty(savaJson)) {
+            processData(savaJson);
+        }
         //联网请求
         getDataForNet();
 
@@ -90,6 +96,7 @@ public class NewsPager extends BasePager {
                     @Override
                     public void onResponse(String response, int id) {
 //                        Log.e("TAG", "联网成功" + response);
+                        CacheUtils.putString(mContext, Constants.NEWSCENTER_PAGER_URL, response);
                         processData(response);
                     }
                 });
