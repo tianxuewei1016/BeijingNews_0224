@@ -9,14 +9,14 @@ public class TabDetailPagerBean {
      * retcode : 200
      */
 
-    private DataEntity data;
+    private DataBean data;
     private int retcode;
 
-    public DataEntity getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(DataEntity data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
@@ -28,7 +28,7 @@ public class TabDetailPagerBean {
         this.retcode = retcode;
     }
 
-    public static class DataEntity {
+    public static class DataBean {
         /**
          * countcommenturl : /client/content/countComment/
          * more : /static/api/news/10007/list_2.json
@@ -41,9 +41,9 @@ public class TabDetailPagerBean {
         private String countcommenturl;
         private String more;
         private String title;
-        private List<NewsEntity> news;
+        private List<NewsBean> news;
         private List<?> topic;
-        private List<TopnewsEntity> topnews;
+        private List<TopnewsBean> topnews;
 
         public String getCountcommenturl() {
             return countcommenturl;
@@ -69,11 +69,11 @@ public class TabDetailPagerBean {
             this.title = title;
         }
 
-        public List<NewsEntity> getNews() {
+        public List<NewsBean> getNews() {
             return news;
         }
 
-        public void setNews(List<NewsEntity> news) {
+        public void setNews(List<NewsBean> news) {
             this.news = news;
         }
 
@@ -85,15 +85,15 @@ public class TabDetailPagerBean {
             this.topic = topic;
         }
 
-        public List<TopnewsEntity> getTopnews() {
+        public List<TopnewsBean> getTopnews() {
             return topnews;
         }
 
-        public void setTopnews(List<TopnewsEntity> topnews) {
+        public void setTopnews(List<TopnewsBean> topnews) {
             this.topnews = topnews;
         }
 
-        public static class NewsEntity {
+        public static class NewsBean {
             /**
              * id : 147314
              * title : 徒步登高欣赏京城第一片红叶
@@ -189,7 +189,7 @@ public class TabDetailPagerBean {
             }
         }
 
-        public static class TopnewsEntity {
+        public static class TopnewsBean {
             /**
              * comment : true
              * commentlist : /static/api/news/10007/53/147253/comment_1.json
