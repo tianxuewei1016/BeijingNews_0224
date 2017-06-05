@@ -23,6 +23,16 @@ public class NoViewPager extends ViewPager{
      */
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        return true;
+        return true;//事件消费掉
+    }
+
+    /**
+     * 把事件传递给孩子
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return false;
     }
 }

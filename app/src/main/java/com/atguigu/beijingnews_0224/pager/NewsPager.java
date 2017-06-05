@@ -68,8 +68,9 @@ public class NewsPager extends BasePager {
         textView.setTextColor(Color.RED);
         //添加到布局上
         fl_content.addView(textView);
-
+        //获取数据
         String savaJson = CacheUtils.getString(mContext, Constants.NEWSCENTER_PAGER_URL);
+        //判断不能为空--取反--当不是null才能进来
         if (!TextUtils.isEmpty(savaJson)) {
             processData(savaJson);
         }
@@ -96,6 +97,7 @@ public class NewsPager extends BasePager {
                     @Override
                     public void onResponse(String response, int id) {
 //                        Log.e("TAG", "联网成功" + response);
+                        //缓存数据
                         CacheUtils.putString(mContext, Constants.NEWSCENTER_PAGER_URL, response);
                         processData(response);
                     }
@@ -118,7 +120,7 @@ public class NewsPager extends BasePager {
 
         //实例化详情页面
         basePagers = new ArrayList<>();
-        basePagers.add(new NewsMenuDetailPager(mContext));
+        basePagers.add(new NewsMenuDetailPager(mContext,datas.get(0).getChildren()));
         basePagers.add(new TopicMenuDetailPager(mContext));
         basePagers.add(new PhotosMenuDetailPager(mContext));
         basePagers.add(new InteractMenuDetailPager(mContext));
