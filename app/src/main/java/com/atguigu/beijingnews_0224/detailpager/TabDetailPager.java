@@ -24,6 +24,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.extras.SoundPullEventListener;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -77,6 +78,14 @@ public class TabDetailPager extends MenuDetailBasePager {
 
         //得到listView
         lv = pullRefreshList.getRefreshableView();
+        /**
+         * 增加下拉刷新的声音
+         */
+        SoundPullEventListener<ListView> soundListener = new SoundPullEventListener<ListView>(mContext);
+        soundListener.addSoundEvent(PullToRefreshBase.State.PULL_TO_REFRESH, R.raw.pull_event);
+        soundListener.addSoundEvent(PullToRefreshBase.State.RESET, R.raw.reset_sound);
+        soundListener.addSoundEvent(PullToRefreshBase.State.REFRESHING, R.raw.refreshing_sound);
+        pullRefreshList.setOnPullEventListener(soundListener);
         //顶部视图
         View viewTopNews = View.inflate(mContext, R.layout.tab_detail_topnews, null);
         viewpager = (HorizontalScrollViewPager) viewTopNews.findViewById(R.id.viewpager);
@@ -196,11 +205,11 @@ public class TabDetailPager extends MenuDetailBasePager {
                 //添加到线性布局中去
                 llPointGroup.addView(point);
             }
-                //listView的数据
+            //listView的数据
             newsBeenList = bean.getData().getNews();
             adapter = new ListAdapter();
             lv.setAdapter(adapter);
-        }else{
+        } else {
             isLoadingMore = false;
             newsBeenList.addAll(bean.getData().getNews());//把新的数据集合加入到原来集合中，而不是覆盖
             adapter.notifyDataSetChanged();//适配器刷新
