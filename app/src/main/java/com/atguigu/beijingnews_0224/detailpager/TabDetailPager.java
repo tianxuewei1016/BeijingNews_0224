@@ -245,6 +245,8 @@ public class TabDetailPager extends MenuDetailBasePager {
             adapter.notifyDataSetChanged();//适配器刷新
         }
 
+        //设置自动滚动
+
     }
 
     class ListAdapter extends BaseAdapter {
