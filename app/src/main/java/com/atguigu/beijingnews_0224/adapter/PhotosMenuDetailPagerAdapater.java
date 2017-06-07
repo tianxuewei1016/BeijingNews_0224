@@ -2,19 +2,23 @@ package com.atguigu.beijingnews_0224.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.atguigu.baselibrary.BitmapCacheUtils;
 import com.atguigu.baselibrary.Constants;
+import com.atguigu.baselibrary.NetCacheUtils;
 import com.atguigu.beijingnews_0224.R;
 import com.atguigu.beijingnews_0224.activity.PicassoSampleActivity;
 import com.atguigu.beijingnews_0224.domain.PhotosMenuDetailPagerBean;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
@@ -31,10 +35,40 @@ public class PhotosMenuDetailPagerAdapater extends RecyclerView.Adapter<PhotosMe
 
     private final Context mContext;
     private final List<PhotosMenuDetailPagerBean.DataEntity.NewsEntity> datas;
+    private final RecyclerView recyclerview;
+    private BitmapCacheUtils bitmapCacheUtils;
 
-    public PhotosMenuDetailPagerAdapater(Context mContext, List<PhotosMenuDetailPagerBean.DataEntity.NewsEntity> datas) {
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case NetCacheUtils.SECUSS://图片请求成功
+                    //位置
+                    int position = msg.arg1;
+                    Bitmap bitmap = (Bitmap) msg.obj;
+                    if (recyclerview.isShown()) {
+                        ImageView ivIcon = (ImageView) recyclerview.findViewWithTag(position);
+                        if (ivIcon != null && bitmap != null) {
+                            Log.e("TAG", "网络缓存图片显示成功" + position);
+                            ivIcon.setImageBitmap(bitmap);
+                        }
+                    }
+                    break;
+                case NetCacheUtils.FAIL://图片请求失败
+                    position = msg.arg1;
+                    Log.e("TAG", "网络缓存失败" + position);
+                    break;
+            }
+        }
+    };
+
+    public PhotosMenuDetailPagerAdapater(Context mContext, List<PhotosMenuDetailPagerBean.DataEntity.NewsEntity> datas, RecyclerView recyclerview) {
         this.mContext = mContext;
         this.datas = datas;
+        this.recyclerview = recyclerview;
+        bitmapCacheUtils = new BitmapCacheUtils(handler);
     }
 
     @Override
@@ -48,15 +82,21 @@ public class PhotosMenuDetailPagerAdapater extends RecyclerView.Adapter<PhotosMe
         PhotosMenuDetailPagerBean.DataEntity.NewsEntity newsEntity = datas.get(position);
         //2.绑定数据
         holder.tvTitle.setText(newsEntity.getTitle());
-        String imageUrl = Constants.BASE_URL + newsEntity.getListimage();
-        Glide.with(mContext)
-                .load(imageUrl)
-                .placeholder(R.drawable.news_pic_default)
-                .error(R.drawable.news_pic_default)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.ivIcon);
+        //使用Glide联网请求图片
+//        String url = Constants.BASE_URL + newsEntity.getListimage();
+//        Glide.with(mContext)
+//                .load(imageUrl)
+//                .placeholder(R.drawable.news_pic_default)
+//                .error(R.drawable.news_pic_default)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .into(holder.ivIcon);
 
-        //3.设置点击事件
+        //使用自定义的方式请求图片
+        holder.ivIcon.setTag(position);
+        Bitmap bitmap = bitmapCacheUtils.getBitmapFromNet(Constants.BASE_URL + newsEntity.getListimage(), position);
+        if (bitmap != null) {//内存或者本地
+            holder.ivIcon.setImageBitmap(bitmap);
+        }
 
     }
 

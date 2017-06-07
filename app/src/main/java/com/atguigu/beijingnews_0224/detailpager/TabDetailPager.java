@@ -184,13 +184,18 @@ public class TabDetailPager extends MenuDetailBasePager {
         super.initData();
         //设置数据
         url = BASE_URL + childrenBean.getUrl();
+
+        String saveJson = CacheUtils.getString(mContext, url);
+        if (!TextUtils.isEmpty(saveJson)) {
+            processData(saveJson);
+        }
         getDataFromNet(url);
     }
 
     /**
      * 网络请求
      */
-    private void getDataFromNet(String url) {
+    private void getDataFromNet(final String url) {
         OkHttpUtils.get()
                 .url(url)
                 .build()
@@ -203,6 +208,7 @@ public class TabDetailPager extends MenuDetailBasePager {
                     @Override
                     public void onResponse(String response, int id) {
 //                        Log.e("TAG", "请求成功==" + response);
+                        CacheUtils.putString(mContext, url, response);
                         //缓存数据
                         processData(response);
                         //结束下拉刷新
@@ -380,12 +386,12 @@ public class TabDetailPager extends MenuDetailBasePager {
             imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()){
+                    switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN://按下的时候移除消息
                             handler.removeCallbacksAndMessages(null);
                             break;
                         case MotionEvent.ACTION_UP://离开的时候重新发消息
-                            handler.postDelayed(new MyRunnable(),4000);
+                            handler.postDelayed(new MyRunnable(), 4000);
                             break;
                     }
                     return true;

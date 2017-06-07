@@ -5,10 +5,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
+import com.atguigu.baselibrary.CacheUtils;
 import com.atguigu.baselibrary.Constants;
 import com.atguigu.beijingnews_0224.R;
 import com.atguigu.beijingnews_0224.adapter.PhotosMenuDetailPagerAdapater;
@@ -72,10 +75,15 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
         super.initData();
         //联网请求
         url = Constants.BASE_URL + dataBean.getUrl();
+        Log.e("TAG", "图组的网络地址=====" + url);
+        String saveJson = CacheUtils.getString(mContext, url);
+        if (!TextUtils.isEmpty(saveJson)) {
+            processData(saveJson);
+        }
         getDataFromNet(url);
     }
 
-    private void getDataFromNet(String url) {
+    private void getDataFromNet(final String url) {
         OkHttpUtils.get()
                 .url(url)
                 .build().execute(new StringCallback() {
@@ -87,6 +95,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
             @Override
             public void onResponse(String response, int id) {
 //                Log.e("TAG", "图组请求成功==" + response);
+                CacheUtils.putString(mContext, url, response);
                 processData(response);
             }
         });
@@ -103,7 +112,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
         if (datas != null && datas.size() > 0) {
             //有数据
             progressbar.setVisibility(View.GONE);
-            adapater = new PhotosMenuDetailPagerAdapater(mContext, datas);
+            adapater = new PhotosMenuDetailPagerAdapater(mContext, datas, recyclerview);
             //设置适配器
             recyclerview.setAdapter(adapater);
             //设置布局管理器
