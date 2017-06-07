@@ -2,6 +2,7 @@ package com.atguigu.beijingnews_0224.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,13 +78,13 @@ public class PhotosMenuDetailPagerAdapater extends RecyclerView.Adapter<PhotosMe
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    String imageUrl = Constants.BASE_URL + datas.get(getLayoutPosition()).getListimage();
-//                    Intent intent = new Intent(mContext, PicassoSampleActivity.class);
-//                    intent.setData(Uri.parse(imageUrl));
-//                    mContext.startActivity(intent);
+                    String imageUrl = Constants.BASE_URL + datas.get(getLayoutPosition()).getListimage();
                     Intent intent = new Intent(mContext, PicassoSampleActivity.class);
-                    intent.putExtra("url", Constants.BASE_URL + datas.get(getLayoutPosition()).getListimage());
+                    intent.setData(Uri.parse(imageUrl));
                     mContext.startActivity(intent);
+//                    Intent intent = new Intent(mContext, PicassoSampleActivity.class);
+//                    intent.putExtra("url", Constants.BASE_URL + datas.get(getLayoutPosition()).getListimage());
+//                    mContext.startActivity(intent);
                 }
             });
         }
