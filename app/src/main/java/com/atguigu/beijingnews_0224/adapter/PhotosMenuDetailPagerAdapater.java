@@ -1,6 +1,7 @@
 package com.atguigu.beijingnews_0224.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.atguigu.baselibrary.Constants;
 import com.atguigu.beijingnews_0224.R;
+import com.atguigu.beijingnews_0224.activity.PicassoSampleActivity;
 import com.atguigu.beijingnews_0224.domain.PhotosMenuDetailPagerBean;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -68,9 +70,22 @@ public class PhotosMenuDetailPagerAdapater extends RecyclerView.Adapter<PhotosMe
         @InjectView(R.id.tv_title)
         TextView tvTitle;
 
-        public MyViewHolder(View view) {
-            super(view);
-            ButterKnife.inject(this, view);
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.inject(this, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    String imageUrl = Constants.BASE_URL + datas.get(getLayoutPosition()).getListimage();
+//                    Intent intent = new Intent(mContext, PicassoSampleActivity.class);
+//                    intent.setData(Uri.parse(imageUrl));
+//                    mContext.startActivity(intent);
+                    Intent intent = new Intent(mContext, PicassoSampleActivity.class);
+                    intent.putExtra("url", Constants.BASE_URL + datas.get(getLayoutPosition()).getListimage());
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 }

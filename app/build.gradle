@@ -35,4 +35,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile project(':PullToRefresh_library')
     compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile project(':PhotoView_library')
 }

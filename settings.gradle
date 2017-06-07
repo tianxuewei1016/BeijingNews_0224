@@ -1,1 +1,1 @@
-include ':app', ':BaseLibrary', ':SlidingMenu_library', ':ViewPagerIndicator_library', ':PullToRefresh_library'
+include ':app', ':BaseLibrary', ':SlidingMenu_library', ':ViewPagerIndicator_library', ':PullToRefresh_library', ':PhotoView_library'
