@@ -19,6 +19,9 @@ import com.atguigu.baselibrary.NetCacheUtils;
 import com.atguigu.beijingnews_0224.R;
 import com.atguigu.beijingnews_0224.activity.PicassoSampleActivity;
 import com.atguigu.beijingnews_0224.domain.PhotosMenuDetailPagerBean;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.List;
 
@@ -36,6 +39,7 @@ public class PhotosMenuDetailPagerAdapater extends RecyclerView.Adapter<PhotosMe
     private final Context mContext;
     private final List<PhotosMenuDetailPagerBean.DataEntity.NewsEntity> datas;
     private final RecyclerView recyclerview;
+    private DisplayImageOptions options;
     private BitmapCacheUtils bitmapCacheUtils;
 
 
@@ -69,6 +73,18 @@ public class PhotosMenuDetailPagerAdapater extends RecyclerView.Adapter<PhotosMe
         this.datas = datas;
         this.recyclerview = recyclerview;
         bitmapCacheUtils = new BitmapCacheUtils(handler);
+
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.news_pic_default)
+                .showImageForEmptyUri(R.drawable.news_pic_default)
+                .showImageOnFail(R.drawable.news_pic_default)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                //设置矩形圆角图片
+                .displayer(new RoundedBitmapDisplayer(10))
+                .build();
     }
 
     @Override
@@ -92,11 +108,14 @@ public class PhotosMenuDetailPagerAdapater extends RecyclerView.Adapter<PhotosMe
 //                .into(holder.ivIcon);
 
         //使用自定义的方式请求图片
-        holder.ivIcon.setTag(position);
-        Bitmap bitmap = bitmapCacheUtils.getBitmapFromNet(Constants.BASE_URL + newsEntity.getListimage(), position);
-        if (bitmap != null) {//内存或者本地
-            holder.ivIcon.setImageBitmap(bitmap);
-        }
+//        holder.ivIcon.setTag(position);
+//        Bitmap bitmap = bitmapCacheUtils.getBitmapFromNet(Constants.BASE_URL + newsEntity.getListimage(), position);
+//        if (bitmap != null) {//内存或者本地
+//            holder.ivIcon.setImageBitmap(bitmap);
+//        }
+
+        //ImagerLoader加载图片-----------
+        ImageLoader.getInstance().displayImage(Constants.BASE_URL + newsEntity.getListimage(), holder.ivIcon, options);
 
     }
 

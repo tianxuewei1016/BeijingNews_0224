@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BaseLibrary/BaseLibrary.iml" filepath="$PROJECT_DIR$/BaseLibrary/BaseLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/BeijingNews_0224.iml" filepath="$PROJECT_DIR$/BeijingNews_0224.iml" />
-      <module fileurl="file://$PROJECT_DIR$/JPushExample(650497)/JPushExample(650497).iml" filepath="$PROJECT_DIR$/JPushExample(650497)/JPushExample(650497).iml" />
       <module fileurl="file://$PROJECT_DIR$/PhotoView_library/PhotoView_library.iml" filepath="$PROJECT_DIR$/PhotoView_library/PhotoView_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/PullToRefresh_library/PullToRefresh_library.iml" filepath="$PROJECT_DIR$/PullToRefresh_library/PullToRefresh_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/SlidingMenu_library/SlidingMenu_library.iml" filepath="$PROJECT_DIR$/SlidingMenu_library/SlidingMenu_library.iml" />

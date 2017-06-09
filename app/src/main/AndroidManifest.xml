@@ -2,6 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.atguigu.beijingnews_0224">
 
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 蓝牙分享所需的权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -26,7 +37,6 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
 
 
     <!-- Optional for location -->
@@ -62,17 +72,17 @@
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
 
         <!-- Required SDK核心功能-->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.atguigu.beijingnews_0224" />
             </intent-filter>
@@ -82,8 +92,8 @@
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
-            android:process=":mult"
-            android:exported="false">
+            android:exported="false"
+            android:process=":mult">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -128,13 +138,15 @@
         </receiver>
 
         <!-- Required SDK核心功能-->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
+        <receiver
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false" />
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
             android:name="com.atguigu.beijingnews_0224.receiver.MyReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
@@ -146,8 +158,76 @@
         </receiver>
 
         <!-- Required  . Enable it you can get statistics data with channel -->
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="4545f2d71e7760806962b666" />
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="4545f2d71e7760806962b666" />
+
+        <!--微信分享回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
+        <!--易信分享回调 -->
+        <!--<activity-->
+            <!--android:name=".yxapi.YXEntryActivity"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+            <!--android:exported="true"-->
+            <!--android:screenOrientation="portrait" />-->
+
+        <!-- 支付宝分享回调 -->
+        <!--<activity-->
+            <!--android:name=".apshare.ShareEntryActivity"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+            <!--android:exported="true"/>-->
+        <!--<!-钉钉分享回调&ndash;&gt;-->
+        <!--<activity-->
+            <!--android:name=".ddshare.DDShareActivity"-->
+            <!--android:launchMode="singleInstance"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.VIEW"></action>-->
+                <!--<category android:name="android.intent.category.DEFAULT"></category>-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+
+            <intent-filter>
+                <data android:scheme="tencent100371282" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- 调用新浪原生SDK，需要注册的回调activity -->
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!--集成line客户端登录授权，需要添如下格式的过滤器-->
+            <intent-filter>
+                <data android:scheme="line.1477692153" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+
+
     </application>
 
 </manifest>
