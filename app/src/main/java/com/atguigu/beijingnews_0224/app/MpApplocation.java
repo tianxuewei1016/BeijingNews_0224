@@ -3,6 +3,7 @@ package com.atguigu.beijingnews_0224.app;
 import android.app.Application;
 import android.content.Context;
 
+import com.atguigu.beijingnews_0224.CrashHandler;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -44,6 +45,9 @@ public class MpApplocation extends Application {
 
         //初始化ShareSDK
         ShareSDK.initSDK(this);
+
+        CrashHandler catchHandler = CrashHandler.getInstance();
+        catchHandler.init(getApplicationContext());
     }
 
     public static void initImageLoader(Context context) {

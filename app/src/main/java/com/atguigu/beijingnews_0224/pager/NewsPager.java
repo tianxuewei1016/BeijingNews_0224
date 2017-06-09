@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.atguigu.baselibrary.CacheUtils;
 import com.atguigu.baselibrary.Constants;
@@ -47,7 +48,6 @@ public class NewsPager extends BasePager {
      * 左侧菜单详情的页面的集合
      */
     private List<MenuDetailBasePager> basePagers;
-
 
     public NewsPager(Context mContext) {
         super(mContext);
@@ -121,7 +121,7 @@ public class NewsPager extends BasePager {
         //实例化详情页面
         basePagers = new ArrayList<>();
         basePagers.add(new NewsMenuDetailPager(mContext, datas.get(0).getChildren()));
-        basePagers.add(new TopicMenuDetailPager(mContext,datas.get(0).getChildren()));
+        basePagers.add(new TopicMenuDetailPager(mContext, datas.get(0).getChildren()));
         basePagers.add(new PhotosMenuDetailPager(mContext, datas.get(2)));
         basePagers.add(new InteractMenuDetailPager(mContext));
         basePagers.add(new VoteMenuDetailPager(mContext));
@@ -210,30 +210,55 @@ public class NewsPager extends BasePager {
 
         //设置标题
         tv_title.setText(datas.get(prePosition).getTitle());
+        if (prePosition < basePagers.size()) {
+            MenuDetailBasePager menuDetailBasePager = basePagers.get(prePosition);
+            //调用
+            menuDetailBasePager.initData();
+            //视图
+            View rootView = menuDetailBasePager.rootView;
+            fl_content.removeAllViews();//移除之前的
+            fl_content.addView(rootView);
 
-        MenuDetailBasePager basePager = basePagers.get(prePosition);//NewsMenuDetailPager,TopicMenuDetailPager...
-        View rootView = basePager.rootView;
-        fl_content.removeAllViews();//把之前显示的给移除
+            if (prePosition == 2) {
+                //组图
+                ib_switch_list_grid.setVisibility(View.VISIBLE);
+                ib_switch_list_grid.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PhotosMenuDetailPager photosMenuDetailPager = (PhotosMenuDetailPager) basePagers.get(2);
+                        photosMenuDetailPager.swichListAndGrid(ib_switch_list_grid);
+                    }
+                });
+            } else {
+                //其他
+                ib_switch_list_grid.setVisibility(View.GONE);
+            }
+            Toast.makeText(mContext, "该页面暂时未实现", Toast.LENGTH_SHORT).show();
 
-        fl_content.addView(rootView);
-
-        //调用InitData
-        basePager.initData();
-
-        if (prePosition == 2) {
-            //显示
-            ib_switch_list_grid.setVisibility(View.VISIBLE);
-            ib_switch_list_grid.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PhotosMenuDetailPager basePager1 = (PhotosMenuDetailPager) basePagers.get(2);
-                    basePager1.swichListAndGrid(ib_switch_list_grid);
-                }
-            });
-        } else {
-            //隐藏
-            ib_switch_list_grid.setVisibility(View.GONE);
+//
+//        MenuDetailBasePager basePager = basePagers.get(prePosition);//NewsMenuDetailPager,TopicMenuDetailPager...
+//        View rootView = basePager.rootView;
+//        fl_content.removeAllViews();//把之前显示的给移除
+//
+//        fl_content.addView(rootView);
+//
+//        //调用InitData
+//        basePager.initData();
+//
+//        if (prePosition == 2) {
+//            //显示
+//            ib_switch_list_grid.setVisibility(View.VISIBLE);
+//            ib_switch_list_grid.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PhotosMenuDetailPager basePager1 = (PhotosMenuDetailPager) basePagers.get(2);
+//                    basePager1.swichListAndGrid(ib_switch_list_grid);
+//                }
+//            });
+//        } else {
+//            //隐藏
+//            ib_switch_list_grid.setVisibility(View.GONE);
+//        }
         }
-
     }
 }
